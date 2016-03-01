@@ -129,6 +129,58 @@ protected:
 
      boost::mutex mMutexPos;
      boost::mutex mMutexFeatures;
+
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version)
+    {
+	 ar & mnId;
+	 ar & nNextId;
+	 ar & mnFirstKFid;
+
+         // Variables used by the tracking
+         ar & mTrackProjX;
+         ar & mTrackProjY;
+         ar & mbTrackInView;
+         ar & mnTrackScaleLevel;
+         ar & mTrackViewCos;
+         ar & mnTrackReferenceForFrame;
+         ar & mnLastFrameSeen;
+         
+         // Variables used by local mapping
+         ar &  mnBALocalForKF;
+         ar &  mnFuseCandidateForKF;
+         // Variables used by loop closing
+         ar & mnLoopPointForKF;
+         ar & mnCorrectedByKF;
+         ar & mnCorrectedReference;
+    
+         // Position in absolute coordinates
+         ar &  mWorldPos;
+         // Keyframes observing the point and associated index in keyframe
+         ar & mObservations;
+         // Mean viewing direction
+         ar &  mNormalVector;
+         // Best descriptor to fast matching
+         ar & mDescriptor;
+         // Reference KeyFrame
+         ar & mpRefKF;
+         // Tracking counters
+         ar & mnVisible;
+         ar & mnFound;
+         // Bad flag (we do not currently erase MapPoint from memory)
+         ar & mbBad;
+         // Scale invariance distances
+         ar & mfMinDistance;
+         ar & mfMaxDistance;
+         // Map 
+         ar & mpMap;
+
+
+    }
+
+
 };
 
 } //namespace ORB_SLAM

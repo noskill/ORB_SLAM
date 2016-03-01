@@ -1,0 +1,9 @@
+cv::Mat       done
+cv::KeyPoint  done
+KeyFrame      done
+MapPoint      done
+Map           done
+DBoW2::BowVector ?
+KeyFrameDatabase ?
+ORBvocabulary    not nessesary
+DBoW2::FeatureVector

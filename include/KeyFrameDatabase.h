@@ -67,6 +67,14 @@ protected:
 
   // Mutex
   boost::mutex mMutex;
+
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+      // ar & mpVoc; load at startup
+      ar & mvInvertedFile;
+  }
 };
 
 } //namespace ORB_SLAM

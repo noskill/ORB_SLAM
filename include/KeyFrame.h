@@ -235,6 +235,95 @@ protected:
     boost::mutex mMutexConnections;
     boost::mutex mMutexFeatures;
     boost::mutex mMutexImage;
+
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version)
+    {
+       ar & nNextId;
+       ar & mnId;
+       ar & mnFrameId;
+       ar & mTimeStamp;
+       // Grid (to speed up feature matching)
+       ar & mnGridCols;
+       ar & mnGridRows;
+       ar & mfGridElementWidthInv;
+       ar & mfGridElementHeightInv;
+       // Variables used by the tracking
+       ar & mnTrackReferenceForFrame;
+       ar & mnFuseTargetForKF;
+       // Variables used by the local mapping
+       ar & mnBALocalForKF;
+       ar & mnBAFixedForKF;
+       // Variables used by the keyframe database
+       ar & mnLoopQuery;
+       ar & mnLoopWords;
+       ar & mLoopScore;
+       ar & mnRelocQuery;
+       ar & mnRelocWords;
+       ar & mRelocScore;
+       // Calibration parameters       
+       ar & fx;
+       ar & fy;
+       ar & cx;
+       ar & cy;
+       //BoW
+       ar & mBowVec;
+    
+    // private
+
+
+    // SE3 Pose and camera center
+    ar & Tcw;
+    ar & Ow;
+
+    // Original image, undistorted image bounds, and calibration matrix
+    ar & im;
+    ar & mnMinX;
+    ar & mnMinY;
+    ar & mnMaxX;
+    ar & mnMaxY;
+    ar & mK;
+
+    // KeyPoints, Descriptors, MapPoints vectors (all associated by an index)
+    ar & mvKeys;
+    ar & mvKeysUn;
+    ar & mDescriptors;
+    ar & mvpMapPoints;
+
+    // BoW
+    ar & mpKeyFrameDB;
+    ar & mpORBvocabulary;
+    ar & mFeatVec;
+
+
+    // Grid over the image to speed up feature matching
+    ar & mGrid;
+
+    ar & mConnectedKeyFrameWeights;
+    ar & mvpOrderedConnectedKeyFrames;
+    ar & mvOrderedWeights;
+
+    // Spanning Tree and Loop Edges
+    ar & mbFirstConnection;
+    ar & mpParent;
+    ar & mspChildrens;
+    ar & mspLoopEdges;
+
+    // Erase flags
+    ar & mbNotErase;
+    ar & mbToBeErased;
+    ar & mbBad;
+
+    // Scale
+    ar & mnScaleLevels;
+    ar & mvScaleFactors;
+    ar & mvLevelSigma2;
+    ar & mvInvLevelSigma2;
+
+    ar & mpMap;
+
+    }
 };
 
 } //namespace ORB_SLAM

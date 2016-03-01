@@ -26,7 +26,8 @@
 #include<set>
 
 #include<boost/thread.hpp>
-
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 
 
 namespace ORB_SLAM
@@ -75,6 +76,18 @@ protected:
 
     boost::mutex mMutexMap;
     bool mbMapUpdated;
+
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version)
+    {
+        ar & mspMapPoints;
+        ar & mspKeyFrames;
+        ar & mvpReferenceMapPoints;
+	ar & mnMaxKFid;
+	ar & mbMapUpdated;
+    }
 };
 
 } //namespace ORB_SLAM
