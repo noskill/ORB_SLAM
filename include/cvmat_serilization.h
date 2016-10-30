@@ -1,5 +1,6 @@
 
 #include <opencv2/opencv.hpp>
+#include <boost/serialization/base_object.hpp>
 #include <boost/serialization/split_free.hpp>
 #include <boost/serialization/vector.hpp>
 
@@ -8,7 +9,7 @@ namespace boost {
   namespace serialization {
 
     /** Serialization support for cv::Mat */
-    template
+    template<class Archive>
     void save(Archive & ar, const ::cv::Mat& m, const unsigned int version)
     {
       size_t elem_size = m.elemSize();
@@ -24,7 +25,7 @@ namespace boost {
     }
 
     /** Serialization support for cv::Mat */
-    template
+    template<class Archive>
     void load(Archive & ar, ::cv::Mat& m, const unsigned int version)
     {
       int cols, rows;

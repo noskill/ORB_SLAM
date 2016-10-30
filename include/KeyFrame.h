@@ -29,7 +29,9 @@
 #include "Frame.h"
 #include "KeyFrameDatabase.h"
 
-#include<boost/thread.hpp>
+#include <vocabulary_serialization.h>
+#include <boost/thread.hpp>
+#include <boost/serialization/list.hpp>
 
 
 namespace ORB_SLAM

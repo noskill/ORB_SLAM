@@ -28,6 +28,7 @@
 #include "KeyFrame.h"
 #include "Frame.h"
 #include "ORBVocabulary.h"
+#include "ResourceManager.h"
 
 #include<boost/thread.hpp>
 
@@ -43,7 +44,7 @@ class KeyFrameDatabase
 {
 public:
 
-    KeyFrameDatabase(const ORBVocabulary &voc);
+   KeyFrameDatabase(const ORBVocabulary &voc);
 
    void add(KeyFrame* pKF);
 
@@ -74,6 +75,7 @@ protected:
   {
       // ar & mpVoc; load at startup
       ar & mvInvertedFile;
+      mpVoc = &(ResourceManager::getInstance().getORBVocabulary());
   }
 };
 

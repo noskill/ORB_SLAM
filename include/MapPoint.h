@@ -176,8 +176,6 @@ protected:
          ar & mfMaxDistance;
          // Map 
          ar & mpMap;
-
-
     }
 
 

@@ -14,11 +14,13 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <boost/serialization/base_object.hpp>
+
 
 namespace DBoW2 {
 
 /// Vector of nodes with indexes of local features
-class FeatureVector: 
+class FeatureVector:
   public std::map<NodeId, std::vector<unsigned int> >
 {
 public:
@@ -27,12 +29,12 @@ public:
    * Constructor
    */
   FeatureVector(void);
-  
+
   /**
    * Destructor
    */
   ~FeatureVector(void);
-  
+
   /**
    * Adds a feature to an existing node, or adds a new node with an initial
    * feature
@@ -47,7 +49,15 @@ public:
    * @param v feature vector
    */
   friend std::ostream& operator<<(std::ostream &out, const FeatureVector &v);
-    
+
+  protected:
+      friend class boost::serialization::access;
+
+      template<class Archive>
+      void serialize(Archive &ar, const unsigned int version)
+      {
+         ar & boost::serialization::base_object< std::map< NodeId, std::vector<unsigned int> > >(*this);
+      }
 };
 
 } // namespace DBoW2

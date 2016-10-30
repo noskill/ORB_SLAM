@@ -8,7 +8,7 @@ namespace boost {
   namespace serialization {
 
     /** Serialization support for cv::Mat */
-    template
+    template<class Archive>
     void save(Archive & ar, const ::cv::KeyPoint& p, const unsigned int version)
     {
 	    ar & p.angle;
@@ -21,7 +21,7 @@ namespace boost {
     }
 
     /** Serialization support for cv::Mat */
-    template
+    template<class Archive>
     void load(Archive & ar, ::cv::KeyPoint & p, const unsigned int version)
     {
       ar & p.angle;

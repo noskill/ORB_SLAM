@@ -27,6 +27,7 @@
 #include "Tracking.h"
 #include <boost/thread.hpp>
 #include "KeyFrameDatabase.h"
+#include "include/cvkeypoint_serialization.h"
 
 
 namespace ORB_SLAM

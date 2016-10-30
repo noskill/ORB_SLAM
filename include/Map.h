@@ -23,9 +23,12 @@
 
 #include "MapPoint.h"
 #include "KeyFrame.h"
-#include<set>
+#include <set>
 
-#include<boost/thread.hpp>
+
+#include <boost/serialization/set.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 
@@ -85,8 +88,8 @@ protected:
         ar & mspMapPoints;
         ar & mspKeyFrames;
         ar & mvpReferenceMapPoints;
-	ar & mnMaxKFid;
-	ar & mbMapUpdated;
+        ar & mnMaxKFid;
+        ar & mbMapUpdated;
     }
 };
 

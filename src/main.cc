@@ -37,7 +37,8 @@
 
 
 #include "Converter.h"
-
+#include "ResourceManager.h"
+#include "include/cvmat_serilization.h"
 
 using namespace std;
 
@@ -87,24 +88,25 @@ int main(int argc, char **argv)
     ORB_SLAM::ORBVocabulary Vocabulary;
     Vocabulary.load(fsVoc);
     */
-    
-    // New version to load vocabulary from text file "Data/ORBvoc.txt". 
+
+    // New version to load vocabulary from text file "Data/ORBvoc.txt".
     // If you have an own .yml vocabulary, use the function
     // saveToTextFile in Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h
+    ORB_SLAM::ResourceManager & manager = ORB_SLAM::ResourceManager::getInstance();
     string strVocFile = ros::package::getPath("ORB_SLAM")+"/"+argv[1];
+    manager.setVocabularyFilePath(strVocFile);
     cout << endl << "Loading ORB Vocabulary. This could take a while." << endl;
-    
-    ORB_SLAM::ORBVocabulary Vocabulary;
-    bool bVocLoad = Vocabulary.loadFromTextFile(strVocFile);
+    ORB_SLAM::ORBVocabulary * pVocabulary;
 
-    if(!bVocLoad)
-    {
-        cerr << "Wrong path to vocabulary. Path must be absolut or relative to ORB_SLAM package directory." << endl;
-        cerr << "Falied to open at: " << strVocFile << endl;
-        ros::shutdown();
+    try {
+    	pVocabulary = &(manager.getORBVocabulary());
+    }
+    catch (runtime_error & e) {
+	std::cerr << e.what() << std::endl;
+	ros::shutdown();
         return 1;
     }
-
+    ORB_SLAM::ORBVocabulary & Vocabulary = *pVocabulary;
     cout << "Vocabulary loaded!" << endl << endl;
 
     //Create KeyFrame Database
@@ -184,7 +186,19 @@ int main(int argc, char **argv)
     }
     f.close();
 
+    // serialize the map
+    // create and open a character archive for output
+    std::ofstream ofs("filename");
+    {
+        boost::archive::text_oarchive oa(ofs);
+        // write class instance to archive
+        oa << World;
+    	// archive and stream closed when destructors are called
+    }
+
+
     ros::shutdown();
 
-	return 0;
+    return 0;
 }
+
