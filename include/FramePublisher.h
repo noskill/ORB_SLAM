@@ -57,7 +57,6 @@ protected:
 
     void DrawTextInfo(cv::Mat &im, int nState, cv::Mat &imText);
 
-    cv::Mat mIm;
     vector<cv::KeyPoint> mvCurrentKeys;
 
     vector<bool> mvbOutliers;
@@ -67,12 +66,13 @@ protected:
     vector<cv::KeyPoint> mvIniKeys;
     vector<int> mvIniMatches;
 
-    ros::NodeHandle mNH;
-    ros::Publisher mImagePub;
-
     int mState;
+    cv::Mat mIm;
 
     bool mbUpdated;
+
+    ros::NodeHandle mNH;
+    ros::Publisher mImagePub;
 
     Map* mpMap;
 

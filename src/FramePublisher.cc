@@ -31,14 +31,12 @@
 namespace ORB_SLAM
 {
 
-FramePublisher::FramePublisher()
+FramePublisher::FramePublisher():
+     mState(Tracking::SYSTEM_NOT_READY),
+     mIm(cv::Mat(480,640,CV_8UC3, cv::Scalar(0,0,0))),
+     mbUpdated(true),
+     mImagePub(mNH.advertise<sensor_msgs::Image>("ORB_SLAM/Frame",10,true))
 {
-    mState=Tracking::SYSTEM_NOT_READY;
-    mIm = cv::Mat(480,640,CV_8UC3, cv::Scalar(0,0,0));
-    mbUpdated = true;
-
-    mImagePub = mNH.advertise<sensor_msgs::Image>("ORB_SLAM/Frame",10,true);
-
     PublishFrame();
 }
 

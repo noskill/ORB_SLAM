@@ -157,7 +157,10 @@ int main(int argc, char **argv)
         MapPub.Refresh();
         Tracker.CheckResetByPublishers();
         r.sleep();
+        if (70 < World.KeyFramesInMap())
+            break;
     }
+
 
     // Save keyframe poses at the end of the execution
     ofstream f;
